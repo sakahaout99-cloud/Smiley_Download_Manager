@@ -1,0 +1,102 @@
+{
+  "name": "smiley-download-manager",
+  "productName": "Smiley Download Manager",
+  "version": "1.0.0",
+  "description": "A fast, IDM-style download manager for Windows with real multi-connection downloads and a Chrome/Edge extension.",
+  "author": "Smiley Apps",
+  "license": "MIT",
+  "private": true,
+  "main": "main/main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sakahaout99-cloud/Smiley_Download_Manager.git"
+  },
+  "homepage": "https://github.com/sakahaout99-cloud/Smiley_Download_Manager#readme",
+  "bugs": {
+    "url": "https://github.com/sakahaout99-cloud/Smiley_Download_Manager/issues"
+  },
+  "keywords": [
+    "download-manager",
+    "electron",
+    "idm",
+    "chrome-extension",
+    "youtube-downloader",
+    "windows"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test": "node --test test/*.test.js",
+    "icons": "node scripts/make-icons.js",
+    "dist": "electron-builder --win nsis portable",
+    "pack": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "45.2.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.smileyapps.downloadmanager",
+    "productName": "Smiley Download Manager",
+    "copyright": "Copyright © 2026 Smiley Apps",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main/**/*",
+      "renderer/**/*",
+      "assets/icon.ico",
+      "assets/icon.png",
+      "assets/tray.png",
+      "assets/logo.svg",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "extension",
+        "to": "browser-extension"
+      },
+      {
+        "from": "assets/icon.ico",
+        "to": "icon.ico"
+      },
+      {
+        "from": "assets/icon.png",
+        "to": "icon.png"
+      }
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Smiley Download Manager",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    }
+  }
+}

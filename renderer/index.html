@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smiley Download Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-add" viewBox="0 0 24 24">
+        <path d="M12 3v9m0 0 4-4m-4 4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24">
+        <path d="M8 5.5v13l11-6.5z" fill="currentColor"/>
+      </symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24">
+        <rect x="6" y="5" width="4.2" height="14" rx="1" fill="currentColor"/>
+        <rect x="13.8" y="5" width="4.2" height="14" rx="1" fill="currentColor"/>
+      </symbol>
+      <symbol id="i-stop" viewBox="0 0 24 24">
+        <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/>
+      </symbol>
+      <symbol id="i-delete" viewBox="0 0 24 24">
+        <path d="M4 7h16M9 7V5h6v2m-9 0 1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 11v5m4-5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-batch" viewBox="0 0 24 24">
+        <rect x="4" y="4" width="16" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <rect x="4" y="10" width="16" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <rect x="4" y="16" width="16" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.9"/>
+        <path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M12 2.8v2.3M12 18.9v2.3M2.8 12h2.3M18.9 12h2.3M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M18.5 5.5l-1.6 1.6M7.1 16.9l-1.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10.5" cy="10.5" r="6.3" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="m15.3 15.3 4.2 4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24">
+        <path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.2l2 2.2h9A1.5 1.5 0 0 1 21 8.7v9.3a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18z" fill="#f3b73c" stroke="#c98f1c" stroke-width="1"/>
+        <path d="M3 9.2h18" stroke="#e8a92a" stroke-width="1"/>
+      </symbol>
+      <symbol id="i-folder-open" viewBox="0 0 24 24">
+        <path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.2l2 2.2h8.8A1.5 1.5 0 0 1 21 8.7v1.1H3z" fill="#f3b73c" stroke="#c98f1c" stroke-width="1"/>
+        <path d="M4.2 9.8h17l-2.2 8.3a1.4 1.4 0 0 1-1.3 1H3.5a1.2 1.2 0 0 1-1.15-1.55z" fill="#ffd45e" stroke="#c98f1c" stroke-width="1"/>
+      </symbol>
+      <symbol id="i-file-video" viewBox="0 0 24 24">
+        <path d="M6 2.8h8.2L19 7.5v13.7H6z" fill="#dbe7fb" stroke="#7d9ec7" stroke-width="1"/>
+        <path d="M14 3v5h5" fill="#b7cff0" stroke="#7d9ec7" stroke-width="1"/>
+        <path d="M10 11.2v6l5-3z" fill="#3d6fb4"/>
+      </symbol>
+      <symbol id="i-file-audio" viewBox="0 0 24 24">
+        <path d="M6 2.8h8.2L19 7.5v13.7H6z" fill="#e8e3fb" stroke="#8b7fc7" stroke-width="1"/>
+        <path d="M14 3v5h5" fill="#cfc4f2" stroke="#8b7fc7" stroke-width="1"/>
+        <path d="M10.2 16.2a1.7 1.7 0 1 0 1.7 1.7v-5.4l4-1v3.8" fill="none" stroke="#6c5bb8" stroke-width="1.5" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-file-doc" viewBox="0 0 24 24">
+        <path d="M6 2.8h8.2L19 7.5v13.7H6z" fill="#ffffff" stroke="#a9b6c6" stroke-width="1"/>
+        <path d="M14 3v5h5" fill="#e7edf4" stroke="#a9b6c6" stroke-width="1"/>
+        <path d="M9 12h6M9 15h6M9 18h4" stroke="#5f7d9c" stroke-width="1.3" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-file-exe" viewBox="0 0 24 24">
+        <path d="M6 2.8h8.2L19 7.5v13.7H6z" fill="#dff1e2" stroke="#77a985" stroke-width="1"/>
+        <path d="M14 3v5h5" fill="#bfe0c7" stroke="#77a985" stroke-width="1"/>
+        <rect x="8.7" y="11" width="7" height="6" rx="1" fill="none" stroke="#3f7a51" stroke-width="1.3"/>
+        <path d="M8.7 13.2h7" stroke="#3f7a51" stroke-width="1.3"/>
+      </symbol>
+      <symbol id="i-file-zip" viewBox="0 0 24 24">
+        <path d="M6 2.8h8.2L19 7.5v13.7H6z" fill="#fdeccf" stroke="#c39a56" stroke-width="1"/>
+        <path d="M14 3v5h5" fill="#f7dbab" stroke="#c39a56" stroke-width="1"/>
+        <path d="M11 4.5h2v2h-2zm0 3h2v2h-2zm0 3h2v2h-2z" fill="#b3833a"/>
+        <rect x="10.3" y="14" width="3.4" height="4" rx=".7" fill="#d9a957" stroke="#a97b33" stroke-width=".9"/>
+      </symbol>
+      <symbol id="i-file-other" viewBox="0 0 24 24">
+        <path d="M6 2.8h8.2L19 7.5v13.7H6z" fill="#ffffff" stroke="#a9b6c6" stroke-width="1"/>
+        <path d="M14 3v5h5" fill="#e7edf4" stroke="#a9b6c6" stroke-width="1"/>
+        <path d="M9 12h6M9 15h6" stroke="#8796a8" stroke-width="1.3" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-inbox" viewBox="0 0 24 24">
+        <path d="M4 5h16v14H4z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M4 13h4l2 2h4l2-2h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-warn" viewBox="0 0 24 24">
+        <path d="M12 4 21 20H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M12 9.5v5m0 2.5v.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <nav class="menubar" id="menubar">
+    <div class="menu" data-menu>
+      <button class="menu-title" type="button">File</button>
+      <div class="dropdown">
+        <button data-action="add" type="button">Add URL… <span class="sc">Ctrl+N</span></button>
+        <button data-action="batch" type="button">Add batch URLs…</button>
+        <button data-action="video" type="button">Download video…</button>
+        <div class="sep"></div>
+        <button data-action="open-extension" type="button">Open browser extension folder</button>
+        <div class="sep"></div>
+        <button data-action="exit" type="button">Exit</button>
+      </div>
+    </div>
+    <div class="menu" data-menu>
+      <button class="menu-title" type="button">Downloads</button>
+      <div class="dropdown">
+        <button data-action="start" type="button">Start / Resume <span class="sc">Space</span></button>
+        <button data-action="pause" type="button">Pause</button>
+        <button data-action="stop-all" type="button">Stop all</button>
+        <button data-action="start-all" type="button">Start all</button>
+        <div class="sep"></div>
+        <button data-action="open" type="button">Open file <span class="sc">Enter</span></button>
+        <button data-action="open-folder" type="button">Open containing folder</button>
+        <button data-action="properties" type="button">Properties <span class="sc">Alt+Enter</span></button>
+        <div class="sep"></div>
+        <button data-action="remove" type="button">Remove from list <span class="sc">Del</span></button>
+        <button data-action="remove-file" type="button">Delete file from disk…</button>
+        <div class="sep"></div>
+        <button data-action="clear-completed" type="button">Clear completed</button>
+      </div>
+    </div>
+    <div class="menu" data-menu>
+      <button class="menu-title" type="button">View</button>
+      <div class="dropdown">
+        <button data-action="toggle-graph" type="button" id="menuGraph">Hide speed graph</button>
+        <button data-action="refresh" type="button">Refresh <span class="sc">F5</span></button>
+      </div>
+    </div>
+    <div class="menu" data-menu>
+      <button class="menu-title" type="button">Options</button>
+      <div class="dropdown">
+        <button data-action="options" type="button">Downloads…</button>
+        <button data-action="browser-options" type="button">Browser integration…</button>
+        <button data-action="scheduler-options" type="button">Scheduler…</button>
+        <div class="sep"></div>
+        <button data-action="toggle-clipboard" type="button" id="menuClipboard">Monitor clipboard</button>
+      </div>
+    </div>
+    <div class="menu" data-menu>
+      <button class="menu-title" type="button">Help</button>
+      <div class="dropdown">
+        <button data-action="about" type="button">About Smiley Download Manager</button>
+        <button data-action="extension-help" type="button">Install browser extension…</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="toolbar" id="toolbar">
+    <button class="tbtn" data-action="add" title="Add a new URL (Ctrl+N)">
+      <svg class="tbtn-icon"><use href="#i-add"/></svg><span>Add URL</span>
+    </button>
+    <button class="tbtn" data-action="batch" title="Add multiple URLs">
+      <svg class="tbtn-icon"><use href="#i-batch"/></svg><span>Batch</span>
+    </button>
+    <div class="tb-sep"></div>
+    <button class="tbtn" data-action="start" id="tbStart" title="Start or resume selected downloads">
+      <svg class="tbtn-icon"><use href="#i-play"/></svg><span>Start</span>
+    </button>
+    <button class="tbtn" data-action="pause" id="tbPause" title="Pause selected downloads">
+      <svg class="tbtn-icon"><use href="#i-pause"/></svg><span>Pause</span>
+    </button>
+    <button class="tbtn" data-action="stop-all" title="Pause every download">
+      <svg class="tbtn-icon"><use href="#i-stop"/></svg><span>Stop all</span>
+    </button>
+    <button class="tbtn" data-action="remove" id="tbDelete" title="Remove selected downloads (Del)">
+      <svg class="tbtn-icon"><use href="#i-delete"/></svg><span>Delete</span>
+    </button>
+    <div class="tb-sep"></div>
+    <button class="tbtn" data-action="scheduler-options" title="Schedule start and stop times">
+      <svg class="tbtn-icon"><use href="#i-clock"/></svg><span>Scheduler</span>
+    </button>
+    <button class="tbtn" data-action="options" title="Open options">
+      <svg class="tbtn-icon"><use href="#i-gear"/></svg><span>Options</span>
+    </button>
+    <div class="tb-grow"></div>
+    <div class="tb-search">
+      <svg class="search-icon"><use href="#i-search"/></svg>
+      <input id="searchInput" type="search" placeholder="Search" autocomplete="off">
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-title">Categories</div>
+      <ul class="tree" id="categoryList">
+        <li data-filter="all" class="active">
+          <svg class="tree-icon"><use href="#i-inbox"/></svg><span>All Downloads</span><em id="cnt-all">0</em>
+        </li>
+        <li data-filter="unfinished">
+          <svg class="tree-icon"><use href="#i-folder-open"/></svg><span>Unfinished</span><em id="cnt-unfinished">0</em>
+        </li>
+        <li data-filter="finished">
+          <svg class="tree-icon"><use href="#i-check"/></svg><span>Finished</span><em id="cnt-finished">0</em>
+        </li>
+        <li class="tree-sep">File categories</li>
+        <li data-filter="Video"><svg class="tree-icon"><use href="#i-folder"/></svg><span>Video</span><em id="cnt-Video">0</em></li>
+        <li data-filter="Music"><svg class="tree-icon"><use href="#i-folder"/></svg><span>Music</span><em id="cnt-Music">0</em></li>
+        <li data-filter="Documents"><svg class="tree-icon"><use href="#i-folder"/></svg><span>Documents</span><em id="cnt-Documents">0</em></li>
+        <li data-filter="Programs"><svg class="tree-icon"><use href="#i-folder"/></svg><span>Programs</span><em id="cnt-Programs">0</em></li>
+        <li data-filter="Compressed"><svg class="tree-icon"><use href="#i-folder"/></svg><span>Compressed</span><em id="cnt-Compressed">0</em></li>
+        <li data-filter="Other"><svg class="tree-icon"><use href="#i-folder"/></svg><span>Other</span><em id="cnt-Other">0</em></li>
+      </ul>
+      <div class="side-grow"></div>
+      <div class="speed-card" id="speedCard">
+        <div class="speed-head"><span>Transfer speed</span><strong id="speedNow">0 B/s</strong></div>
+        <canvas id="speedGraph"></canvas>
+        <div class="speed-foot"><span id="speedPeak">Peak 0 B/s</span><span id="speedAvg">—</span></div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div class="content-top">
+        <div class="list-title"><span id="listTitle">All Downloads</span><span class="list-count" id="listCount">0 items</span></div>
+        <div class="qstats" id="quickStats"></div>
+      </div>
+      <div class="table-wrap" id="tableWrap">
+        <table class="grid" id="grid">
+          <colgroup>
+            <col style="width:36px"><col style="width:33%"><col style="width:82px"><col style="width:104px"><col style="width:86px">
+            <col style="width:98px"><col style="width:158px"><col style="width:128px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="cell-check"><input type="checkbox" id="checkAll" title="Select all downloads"></th>
+              <th data-sort="filename">File Name<span class="sort-ind"></span></th>
+              <th data-sort="size" class="num">Size<span class="sort-ind"></span></th>
+              <th data-sort="status">Status<span class="sort-ind"></span></th>
+              <th data-sort="eta">Time left<span class="sort-ind"></span></th>
+              <th data-sort="speed" class="num">Rate<span class="sort-ind"></span></th>
+              <th data-sort="progress">Progress<span class="sort-ind"></span></th>
+              <th data-sort="createdAt">Added<span class="sort-ind"></span></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="empty" id="emptyState">
+          <img src="../assets/logo.svg" alt="" class="empty-logo">
+          <h3>No downloads here yet</h3>
+          <p>Click <b>Add URL</b>, or send a link from the Smiley browser extension.</p>
+          <button class="btn btn-primary" data-action="add">Add a download</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="statusbar">
+    <div class="sb-left"><span class="sb-dot" id="sbDot"></span><span id="sbText">Ready</span></div>
+    <div class="sb-mid"><span id="sbSpeed">0 B/s</span><span class="sb-sep">•</span><span id="sbConn">0 connections</span></div>
+    <div class="sb-right"><span id="sbVersion">Smiley Download Manager</span></div>
+  </footer>
+
+  <div id="toasts" class="toasts"></div>
+  <div id="ctxMenu" class="ctx-menu" role="menu"></div>
+
+  <!-- Add URL dialog -->
+  <dialog id="addDialog" class="dialog add-dialog">
+    <form id="addForm" autocomplete="off">
+      <div class="dlg-head">
+        <img class="dlg-logo" src="../assets/logo.svg" alt="">
+        <div>
+          <h2>Add new download</h2>
+          <p>Paste a link — Smiley grabs the rest.</p>
+        </div>
+      </div>
+      <div class="dlg-body">
+        <label class="field">
+          <span>Address (URL)</span>
+          <div class="row">
+            <input id="addUrl" type="text" placeholder="https://example.com/file.zip" spellcheck="false" required>
+            <button type="button" class="btn btn-light" id="addPaste" title="Paste from clipboard">Paste</button>
+            <button type="button" class="btn btn-light" id="addFetch" title="Check the link">Check</button>
+          </div>
+          <div class="field-note" id="addProbeNote">File name and size are detected automatically.</div>
+        </label>
+        <div class="grid2">
+          <label class="field">
+            <span>File name</span>
+            <input id="addFilename" type="text" placeholder="Auto">
+          </label>
+          <label class="field">
+            <span>Save to</span>
+            <div class="row">
+              <input id="addDir" type="text">
+              <button type="button" class="btn btn-light" id="addBrowse" title="Browse">…</button>
+            </div>
+          </label>
+        </div>
+        <label class="field">
+          <span>Description (optional)</span>
+          <input id="addDesc" type="text" placeholder="e.g. Windows 11 ISO">
+        </label>
+        <div class="start-mode">
+          <label class="radio"><input type="radio" name="startMode" value="now" checked><span>Start download immediately</span></label>
+          <label class="radio"><input type="radio" name="startMode" value="later"><span>Add as paused</span></label>
+        </div>
+        <div class="probe-badges" id="addBadges"></div>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" class="btn" id="addCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="addOk">Start download</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Batch dialog -->
+  <dialog id="batchDialog" class="dialog">
+    <form id="batchForm">
+      <div class="dlg-head">
+        <svg class="dlg-head-icon"><use href="#i-batch"/></svg>
+        <div>
+          <h2>Add batch of URLs</h2>
+          <p>One address per line. Up to 500 links at once.</p>
+        </div>
+      </div>
+      <div class="dlg-body">
+        <label class="field">
+          <span>URLs</span>
+          <textarea id="batchUrls" rows="8" spellcheck="false" placeholder="https://example.com/file1.zip&#10;https://example.com/file2.mp4"></textarea>
+        </label>
+        <div class="grid2">
+          <label class="field"><span>Save to</span><input id="batchDir" type="text"></label>
+          <label class="radio" style="align-self:end"><input type="checkbox" id="batchStart" checked><span>Start immediately</span></label>
+        </div>
+        <div class="field-note" id="batchNote"></div>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" class="btn" id="batchCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add downloads</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Video URL dialog -->
+  <dialog id="videoUrlDialog" class="dialog confirm-dialog">
+    <form id="videoUrlForm" autocomplete="off">
+      <div class="dlg-head">
+        <svg class="dlg-head-icon"><use href="#i-file-video"/></svg>
+        <div>
+          <h2>Download video</h2>
+          <p>Paste a YouTube watch page or another video address.</p>
+        </div>
+      </div>
+      <div class="dlg-body">
+        <label class="field">
+          <span>Video page URL</span>
+          <input id="videoUrl" type="text" placeholder="https://www.youtube.com/watch?v=…" spellcheck="false" required>
+          <div class="field-note" id="videoUrlNote">Smiley asks the resolver which qualities are available.</div>
+        </label>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" class="btn" id="videoUrlCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="videoUrlOk">Fetch qualities</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Video quality dialog -->
+  <dialog id="videoDialog" class="dialog video-dialog">
+    <form id="videoForm" autocomplete="off">
+      <div class="dlg-head">
+        <svg class="dlg-head-icon"><use href="#i-file-video"/></svg>
+        <div>
+          <h2 id="videoTitle">Download video</h2>
+          <p id="videoSub">Choose a quality. Smiley downloads the tracks and combines them for you.</p>
+        </div>
+      </div>
+      <div class="dlg-body">
+        <div class="video-meta" id="videoMeta"></div>
+        <div class="quality-list" id="videoQualities" role="radiogroup"></div>
+        <div class="grid2">
+          <label class="field">
+            <span>File name</span>
+            <input id="videoFilename" type="text" placeholder="Auto">
+          </label>
+          <label class="field">
+            <span>Save to</span>
+            <div class="row">
+              <input id="videoDir" type="text">
+              <button type="button" class="btn btn-light" id="videoBrowse" title="Browse">…</button>
+            </div>
+          </label>
+        </div>
+        <div class="field-note" id="videoNote"></div>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" class="btn" id="videoCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="videoOk">Download</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Options dialog -->  <dialog id="optionsDialog" class="dialog options-dialog">
+    <form id="optionsForm">
+      <div class="dlg-head">
+        <svg class="dlg-head-icon"><use href="#i-gear"/></svg>
+        <div>
+          <h2>Options</h2>
+          <p>Fine-tune Smiley to match the way you download.</p>
+        </div>
+      </div>
+      <div class="options-body">
+        <nav class="options-nav" id="optionsNav">
+          <button type="button" data-tab="general" class="active">General</button>
+          <button type="button" data-tab="browser">Browser integration</button>
+          <button type="button" data-tab="video">Video</button>
+          <button type="button" data-tab="scheduler">Scheduler</button>
+          <button type="button" data-tab="about">About</button>
+        </nav>
+        <div class="options-panes">
+          <section class="pane active" data-pane="general">
+            <h3>Download folders</h3>
+            <label class="field">
+              <span>Default download folder</span>
+              <div class="row">
+                <input id="optDefaultDir" type="text">
+                <button type="button" class="btn btn-light" id="optBrowse">Browse…</button>
+              </div>
+            </label>
+            <label class="check"><input type="checkbox" id="optAutoCat"><span>Sort downloads into category subfolders (Video, Music, Documents…)</span></label>
+            <h3>Performance</h3>
+            <div class="grid2">
+              <label class="field"><span>Simultaneous downloads</span><input id="optConcurrent" type="number" min="1" max="16"></label>
+              <label class="field"><span>Connections per download</span><input id="optConnections" type="number" min="1" max="32"></label>
+            </div>
+            <label class="field">
+              <span>Speed limit (KB/s, 0 = unlimited)</span>
+              <input id="optSpeedLimit" type="number" min="0" max="1048576">
+            </label>
+            <h3>Behaviour</h3>
+            <div class="check-grid">
+              <label class="check"><input type="checkbox" id="optAutoResume"><span>Resume unfinished downloads on startup</span></label>
+              <label class="check"><input type="checkbox" id="optCloseToTray"><span>Keep running in the tray when closed</span></label>
+              <label class="check"><input type="checkbox" id="optStartWindows"><span>Start with Windows</span></label>
+              <label class="check"><input type="checkbox" id="optClipboard"><span>Monitor clipboard for download links</span></label>
+              <label class="check"><input type="checkbox" id="optNotify"><span>Show notifications when a download finishes</span></label>
+              <label class="check"><input type="checkbox" id="optShowPopup"><span>Show the small download popup in the screen corner</span></label>
+            </div>
+          </section>
+
+          <section class="pane" data-pane="browser">
+            <h3>Smiley browser extension</h3>
+            <div class="bridge-card">
+              <div class="bridge-status"><span class="dot ok" id="bridgeDot"></span><div><b id="bridgeTitle">Connecting…</b><small id="bridgeSub">Local bridge for Chrome and Edge</small></div></div>
+              <div class="bridge-port">127.0.0.1:<span id="optPort">6389</span>
+                <label class="mini-field">Port <input id="optApiPort" type="number" min="1024" max="65535"></label>
+              </div>
+            </div>
+            <label class="field">
+              <span>Pairing token</span>
+              <div class="row">
+                <input id="optToken" type="text" readonly>
+                <button type="button" class="btn btn-light" id="optCopyToken">Copy</button>
+                <button type="button" class="btn btn-light" id="optRegenToken" title="Generate a new token">Reset</button>
+              </div>
+              <div class="field-note">Paste this token into the Smiley extension options. Only apps that know it can queue downloads.</div>
+            </label>
+            <h3>Install in Chrome or Edge</h3>
+            <ol class="steps">
+              <li>Open <b>chrome://extensions</b> (or <b>edge://extensions</b>).</li>
+              <li>Turn on <b>Developer mode</b>.</li>
+              <li>Click <b>Load unpacked</b> and choose the folder below.</li>
+              <li>Open the extension's options and paste the pairing token.</li>
+            </ol>
+            <div class="path-box" id="extPathBox">extension folder</div>
+            <div class="row">
+              <button type="button" class="btn btn-light" id="optOpenExt">Open extension folder</button>
+              <button type="button" class="btn btn-light" id="optCopyPath">Copy path</button>
+            </div>
+            <div class="callout">
+              <svg class="mini-ico"><use href="#i-warn"/></svg>
+              <div><b>About YouTube:</b> the extension's player button and <b>File → Download video…</b> hand the page to Smiley, which uses a free resolver to list the available qualities and then downloads them itself. Signed links stay inside the app. DRM-protected, live and private videos are refused, and you should download only content you are allowed to keep.</div>
+            </div>
+          </section>
+
+          <section class="pane" data-pane="video">
+            <h3>Video downloads</h3>
+            <div class="check-grid">
+              <label class="check"><input type="checkbox" id="optVideoEnabled"><span>Enable video downloads (YouTube and other sites)</span></label>
+              <label class="check"><input type="checkbox" id="optVideoAsk"><span>Ask me which quality to download</span></label>
+              <label class="check"><input type="checkbox" id="optVideoKeep"><span>Keep the separate tracks after combining</span></label>
+            </div>
+            <h3>Format resolver</h3>
+            <div class="bridge-card">
+              <div class="bridge-status"><span class="dot" id="resolverDot"></span><div><b id="resolverTitle">Checking…</b><small id="resolverSub">Finds the available formats; Smiley's own engine does the download.</small></div></div>
+            </div>
+            <div class="row">
+              <button type="button" class="btn btn-light" id="optInstallResolver">Install / update resolver</button>
+            </div>
+            <h3>FFmpeg <span class="muted">(combines video + audio for 1080p and above)</span></h3>
+            <div class="bridge-card">
+              <div class="bridge-status"><span class="dot" id="ffmpegDot"></span><div><b id="ffmpegTitle">Checking…</b><small id="ffmpegSub">Only needed for qualities delivered as separate tracks.</small></div></div>
+            </div>
+            <div class="row">
+              <button type="button" class="btn btn-light" id="optInstallFfmpeg">Install FFmpeg</button>
+              <button type="button" class="btn btn-light" id="optCancelInstall" disabled>Cancel install</button>
+            </div>
+            <div class="field-note" id="videoInstallNote"></div>
+            <div class="callout">
+              <svg class="mini-ico"><use href="#i-warn"/></svg>
+              <div><b>Protected content:</b> DRM-protected, paid and live streams are refused. Download only what you are allowed to keep.</div>
+            </div>
+          </section>
+
+          <section class="pane" data-pane="scheduler">
+            <h3>Scheduled queue actions</h3>
+            <p class="pane-note">Smiley checks every few seconds and starts or pauses all downloads at the time you set. Keep the app running in the tray.</p>
+            <div id="scheduleList" class="schedule-list"></div>
+            <div class="schedule-add">
+              <input id="schedTime" type="time" value="09:00">
+              <select id="schedAction">
+                <option value="start">Start all downloads</option>
+                <option value="pause">Pause all downloads</option>
+              </select>
+              <button type="button" class="btn btn-light" id="schedAdd">Add task</button>
+            </div>
+          </section>
+
+          <section class="pane" data-pane="about">
+            <div class="about-pane">
+              <img src="../assets/logo.svg" alt="Smiley Download Manager" class="about-logo">
+              <h2>Smiley Download Manager</h2>
+              <div class="about-version" id="aboutVersion">Version 1.0.0</div>
+              <p>A friendly, fast download manager for Windows with multi-connection acceleration, resume, scheduling and Chrome/Edge integration.</p>
+              <p class="muted">Independent project inspired by the classic download manager workflow. Not affiliated with, endorsed by, or a copy of Internet Download Manager.</p>
+              <div class="about-meta" id="aboutMeta"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" class="btn" id="optionsCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Download details (IDM-style) -->
+  <dialog id="propsDialog" class="dialog props-dialog">
+    <form method="dialog">
+      <div class="dlg-head props-head">
+        <svg class="dlg-head-icon" id="propsIcon"><use href="#i-file-other"/></svg>
+        <div class="props-headtext">
+          <h2 id="propsName">—</h2>
+          <p class="props-statusline"><span class="status" id="propsStatus">—</span><span id="propsRate">—</span><span id="propsEta"></span></p>
+        </div>
+      </div>
+      <div class="dlg-body">
+        <div class="props-progress">
+          <div class="progress-track props-track"><div class="progress-fill" id="propsFill"></div></div>
+          <div class="props-progress-meta">
+            <span id="propsPct">0%</span>
+            <span id="propsBytes">—</span>
+            <span id="propsConns"></span>
+          </div>
+        </div>
+        <label class="field">
+          <span>Download link</span>
+          <div class="row">
+            <input id="propsUrl" type="text" readonly spellcheck="false">
+            <button type="button" class="btn btn-light" id="propsCopyUrl">Copy link</button>
+          </div>
+        </label>
+        <dl class="props" id="propsList"></dl>
+      </div>
+      <div class="dlg-foot props-foot">
+        <button type="button" class="btn btn-light" id="propsOpenFile">Open file</button>
+        <button type="button" class="btn btn-light" id="propsFolder">Open folder</button>
+        <button type="button" class="btn btn-light" id="propsCopyPath">Copy path</button>
+        <button type="button" class="btn btn-light" id="propsPause">Pause</button>
+        <span class="props-foot-grow"></span>
+        <button type="button" class="btn" id="propsRemove">Remove…</button>
+        <button value="close" class="btn btn-primary">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Confirm dialog -->
+  <dialog id="confirmDialog" class="dialog confirm-dialog">
+    <form method="dialog">
+      <div class="dlg-head small">
+        <svg class="dlg-head-icon warn"><use href="#i-warn"/></svg>
+        <div><h2 id="confirmTitle">Are you sure?</h2><p id="confirmMessage"></p></div>
+      </div>
+      <div class="dlg-body" id="confirmExtraWrap" hidden>
+        <label class="check"><input type="checkbox" id="confirmCheck"><span id="confirmCheckLabel">Also delete the file from disk</span></label>
+      </div>
+      <div class="dlg-foot">
+        <button value="cancel" class="btn">Cancel</button>
+        <button value="ok" class="btn btn-danger" id="confirmOk">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

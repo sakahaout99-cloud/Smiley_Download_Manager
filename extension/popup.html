@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Smiley Download Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <img src="icons/icon48.png" alt="" class="logo">
+    <div class="head-text">
+      <h1>Smiley Download Manager</h1>
+      <div class="status"><span class="dot" id="dot"></span><span id="statusText">Checking…</span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="banner warn hidden" id="offlineBanner">
+      Smiley isn't running. Start <b>Smiley Download Manager</b> on your PC, then reopen this popup.
+    </div>
+    <div class="banner info hidden" id="pairBanner">
+      Not paired yet. <button class="link" id="pairBtn">Open options →</button>
+    </div>
+
+    <section class="toggles">
+      <label class="switch-row">
+        <span><b>Catch browser downloads</b><small>Hand normal downloads to Smiley</small></span>
+        <span class="switch"><input type="checkbox" id="catchDownloads"><i></i></span>
+      </label>
+      <label class="switch-row">
+        <span><b>Auto-download media</b><small>Send detected audio/video automatically</small></span>
+        <span class="switch"><input type="checkbox" id="autoMedia"><i></i></span>
+      </label>
+    </section>
+
+    <section class="media">
+      <div class="section-head">
+        <h2>Media on this page</h2>
+        <div class="section-actions">
+          <button class="mini-btn hidden" id="sendAll">Send all</button>
+          <button class="icon-btn" id="refreshMedia" title="Refresh">↻</button>
+        </div>
+      </div>
+      <div class="note hidden" id="ytNote">
+        YouTube uses protected streams. Smiley does not bypass them; it can only grab direct media links.
+      </div>
+      <div class="media-list" id="mediaList"></div>
+    </section>
+
+    <section class="recent hidden" id="recentSection">
+      <div class="section-head"><h2>Recent</h2><span class="speed" id="speedLabel"></span></div>
+      <div class="recent-list" id="recentList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <button class="link" id="openOptions">Options</button>
+    <button class="link" id="testAgain">Reconnect</button>
+    <span class="ver">v1.0.0</span>
+  </footer>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

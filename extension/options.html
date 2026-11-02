@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Smiley extension options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <header class="page-head">
+    <img src="icons/icon128.png" alt="" class="logo">
+    <div>
+      <h1>Smiley browser integration</h1>
+      <p>Connect Chrome or Edge to <b>Smiley Download Manager</b> on your Windows PC.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Pair with the desktop app</h2>
+      <p class="hint">
+        In Smiley, open <b>Options → Browser integration</b>. Copy the pairing token and paste it here.
+        The token stops random websites from queueing downloads on your PC.
+      </p>
+      <label class="field">
+        <span>Pairing token</span>
+        <div class="row">
+          <input id="token" type="password" spellcheck="false" autocomplete="off" placeholder="Paste the 48-character token">
+          <button type="button" class="btn" id="toggleToken">Show</button>
+        </div>
+      </label>
+      <label class="field short">
+        <span>Bridge port</span>
+        <input id="port" type="number" min="1024" max="65535" value="6389">
+      </label>
+      <div class="row">
+        <button type="button" class="btn primary" id="test">Test connection</button>
+        <span id="testResult" class="result"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Choose what Smiley handles</h2>
+      <label class="check">
+        <input type="checkbox" id="catchDownloads">
+        <span><b>Catch browser downloads</b><small>When Chrome starts a normal file download, Smiley takes over with multiple connections. The browser copy is cancelled only after Smiley accepts the link.</small></span>
+      </label>
+      <label class="check">
+        <input type="checkbox" id="sniffer">
+        <span><b>Detect media on pages</b><small>Watch for direct video/audio files as they play, and offer them in the popup.</small></span>
+      </label>
+      <label class="check">
+        <input type="checkbox" id="pagePanel">
+        <span><b>Show the download panel on pages</b><small>A small "Download this video" card appears in the corner when a page plays a direct video or audio file, like IDM's floating panel.</small></span>
+      </label>
+      <label class="check">
+        <input type="checkbox" id="autoMedia">
+        <span><b>Auto-download detected media</b><small>Send every detected direct audio/video file to Smiley automatically. Leave this off if you only want the manual buttons.</small></span>
+      </label>
+      <div class="grid">
+        <label class="field">
+          <span>Minimum media size (MB)</span>
+          <input id="minMediaSize" type="number" min="0" max="100000" value="1">
+        </label>
+      </div>
+      <label class="field">
+        <span>Never capture from these domains (one per line)</span>
+        <textarea id="excludeDomains" rows="3" spellcheck="false" placeholder="example.com&#10;intranet.local"></textarea>
+      </label>
+    </section>
+
+    <section class="card note-card">
+      <h2>About videos and YouTube</h2>
+      <p>
+        Smiley captures <b>direct</b> media files — MP4, WebM, MP3, and similar links that the page exposes to the browser.
+        YouTube and other streaming sites protect their streams with signatures, DASH manifests and DRM.
+        Smiley does not bypass those protections, so YouTube playback sources are not guaranteed to work.
+        Only download content you have the rights to.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>How to load the extension</h2>
+      <ol class="steps">
+        <li>In the Smiley app, choose <b>Options → Browser integration → Open extension folder</b>.</li>
+        <li>Open <b>chrome://extensions</b> in Chrome, or <b>edge://extensions</b> in Edge.</li>
+        <li>Enable <b>Developer mode</b>, then click <b>Load unpacked</b> and select that folder.</li>
+        <li>Come back to this page, paste the token, and press <b>Test connection</b>.</li>
+      </ol>
+      <button type="button" class="btn" id="openExtensions">Open extensions page</button>
+      <span class="result" id="extResult"></span>
+    </section>
+  </main>
+
+  <footer class="page-foot">
+    <span id="saveStatus" class="result"></span>
+    <button type="button" class="btn" id="reset">Reset</button>
+    <button type="button" class="btn primary" id="save">Save settings</button>
+  </footer>
+
+  <script src="options.js"></script>
+</body>
+</html>

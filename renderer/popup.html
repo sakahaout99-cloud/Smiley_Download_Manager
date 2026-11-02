@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Smiley Download</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="card" id="card">
+    <header class="head">
+      <img class="logo" src="../assets/icon.png" alt="">
+      <div class="brand">
+        <span class="title">Smiley Download Manager</span>
+        <span class="sub" id="summary">Starting…</span>
+      </div>
+      <button class="icon-btn" id="close" title="Hide this popup" aria-label="Hide">×</button>
+    </header>
+
+    <div class="plan" id="planView" hidden>
+      <div class="plan-title" id="planTitle"></div>
+      <div class="plan-list" id="planList" role="radiogroup" aria-label="Video quality"></div>
+      <div class="plan-note" id="planNote"></div>
+      <div class="plan-foot">
+        <span class="hint">Saved to your downloads folder</span>
+        <span class="spacer"></span>
+        <button class="btn" id="planCancel">Cancel</button>
+        <button class="btn primary" id="planStart">Download</button>
+      </div>
+    </div>
+
+    <div class="progress" id="progressView">
+      <button class="file" id="file" title="Open in Smiley Download Manager">
+        <span class="name" id="name">No active downloads</span>
+        <span class="meta" id="meta">—</span>
+      </button>
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <footer class="foot">
+        <span class="pct" id="pct">0%</span>
+        <span class="spacer"></span>
+        <button class="btn" id="openApp">Open app</button>
+        <button class="btn primary" id="openFile" hidden>Open file</button>
+        <button class="btn" id="folder">Open folder</button>
+        <button class="btn primary" id="toggle">Pause</button>
+      </footer>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
