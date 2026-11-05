@@ -17,7 +17,9 @@
 </p>
 
 > Independent project. Not affiliated with or endorsed by Internet Download Manager (IDM).
-
+> 
+| Installer (recommended) | [`Smiley Download Manager-Setup-1.0.0.exe`](release/Smiley%20Download%20Manager-Setup-1.0.0.exe) |
+| Portable | [`Smiley Download Manager-Portable-1.0.0.exe`](release/Smiley%20Download%20Manager-Portable-1.0.0.exe) |
 ---
 
 ## Screenshots
